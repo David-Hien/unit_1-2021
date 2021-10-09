@@ -3,27 +3,51 @@ import time
 import os
 import vlc
 from threading import Thread
-
-# Declare global variables (to be used in other functions)
-score_final = 0
-archive_list = []
-name = None
+from threading import Timer
 
 
-# Sound
+# Sound effects
 sound_door_locked = vlc.MediaPlayer("sound_effects/sound_door_locked.mp3")
 sound_door_creak = vlc.MediaPlayer("sound_effects/sound_door_creak.mp3")
+sound_door_creak_open = vlc.MediaPlayer("sound_effects/sound_door_creak_open.mp3")
 sound_door_open_close = vlc.MediaPlayer("sound_effects/sound_door_open_close.mp3")
-sound_door_knock = vlc.MediaPlayer("")
-sound_door_pound = vlc.MediaPlayer("")
+sound_door_knock = vlc.MediaPlayer("sound_effects/sound_door_knock.mp3")
+sound_door_slam = vlc.MediaPlayer("sound_effects/sound_door_slam.mp3")
 sound_phone_ring = vlc.MediaPlayer("")
 sound_phone_call = vlc.MediaPlayer("")
 sound_radio_buzz = vlc.MediaPlayer("")
 sound_radio_warning = vlc.MediaPlayer("")
+sound_baby_cry = vlc.MediaPlayer("sound_effects/sound_baby_cry.mp3")
 
 
-# Function for setup
+# These functions store values independently
+# Records name
+def name_record(string):
+    name_record.name = string
+
+
+# Modify the archive list
+def archive_modifier(list_value):
+    if list_value == "reset":
+        archive_modifier.archive_list = []
+    else:
+        archive_modifier.archive_list.append(list_value)
+
+
+# Acts as a trigger once certain conditions are met
+def basement_unlock(status):
+    basement_unlock.is_unlock = status
+
+
+def bathroom_unlock(status):
+    bathroom_unlock.is_unlock = status
+
+
+# Function for setup, start of game
 def setup():
+    basement_unlock(False)
+    bathroom_unlock(False)
+    archive_modifier("reset")
     os.system('clear')
     print("\t\t\t\t" + '\033[1m' + "NIGHTMARE" + '\033[0m', end='\n')
     print("1.New game")
@@ -54,16 +78,19 @@ def setup():
         setup()
 
 
+# Creates new game and record player name
 def new_game():
     os.system('clear')
-    global name
     print("\t\t\t\t" + '\033[1m' + "NEW GAME" + '\033[0m', end='\n')
     name = input("Enter player name: ")
+    name_record(name)
     print(f"\nWelcome {name}!")
     input("\n\t\t\t\tPress Enter to start. ")
     prologue_1()
 
 
+# Load an existing game from the database
+# Check for saves
 def load_game():
     os.system('clear')
     with open("database.txt", "r") as file:
@@ -77,19 +104,31 @@ def load_game():
             load_game_print()
 
 
+# Print options
 def load_game_print():
     with open("database.txt", "r") as file:
         i = 0
         for line in file.readlines():
             i += 1
             name_update, event_update, archive_update = line.split(', ')
-            print(f"{i}.{name_update}, {event_update}")
+            if event_update.count("Chapter"):
+                chapter = event_update
+            elif event_update.count("chap1"):
+                chapter = "Chapter 1"
+            elif event_update.count("prologue"):
+                chapter = "Prologue"
+            else:
+                chapter = event_update
+            print(f"{i}.{name_update}, {chapter}")
+        print(f"{i + 1}.Quit to menu")
         save_slot = input("Enter save slot number: ")
         if save_slot.isnumeric():
-            if int(save_slot) > i or int(save_slot) <= 0:
+            if int(save_slot) > i + 1 or int(save_slot) <= 0:
                 os.system('clear')
                 print(f"'{save_slot}' not recognized.")
                 load_game()
+            elif int(save_slot) == i + 1:
+                setup()
             else:
                 load_game_load(save_slot)
         else:
@@ -98,15 +137,19 @@ def load_game_print():
             load_game()
 
 
+# Load the selected save
 def load_game_load(save_slot):
     os.system('clear')
-    global name
     with open("database.txt", "r") as file:
         name, event, archive_update = file.readlines()[int(save_slot) - 1].split(', ')
     print(f"Welcome back {name}!")
+    name_record(name)
     time.sleep(2)
     archive_list_update(archive_update)
-    eval(event)()
+    if event.count("Chapter"):
+        eval(f"chap{event.split(' ')[-1]}")()
+    else:
+        eval(event)()
 
 
 def leaderboard():
@@ -134,7 +177,7 @@ def menu(event):
         menu_choice = int(menu_choice)
         if menu_choice == 1:
             os.system('clear')
-            event()
+            pass
         elif menu_choice == 2:
             save_game(event)
             setup()
@@ -153,10 +196,15 @@ def menu(event):
         menu(event)
 
 
+# Append the 'event' into the database to be used for load_game
 def save_game(event):
     os.system('clear')
+    try:
+        checkpoint = event.__name__
+    except AttributeError:
+        checkpoint = event
     with open("database.txt", "a") as file:
-        file.write(f"\n{name}, {event.__name__}, {len(archive_list)}")
+        file.write(f"\n{name_record.name}, {checkpoint}, {len(archive_modifier.archive_list)}")
     print(f"Saving game", end='')
     for i in range(3):
         time.sleep(1)
@@ -164,13 +212,13 @@ def save_game(event):
     time.sleep(1.5)
 
 
+# User can access documents opened
 def archive():
     os.system('clear')
     print("\t\t\t\t" + '\033[1m' + "ARCHIVE" + '\033[0m', end='\n')
-    global archive_list
-    archive_list_length = len(archive_list)
+    archive_list_length = len(archive_modifier.archive_list)
     for i in range(archive_list_length):
-        print(f"{i + 1}.{archive_list[i]}")
+        print(f"{i + 1}.{archive_modifier.archive_list[i]}")
     print(f"{archive_list_length + 1}.Quit to menu")
     archive_choice = input(f"Select option 1 to {archive_list_length + 1}: ")
     if archive_choice.isnumeric():
@@ -179,18 +227,56 @@ def archive():
         if archive_choice == archive_list_length + 1:
             pass
         else:
-            eval(archive_list[archive_choice - 1])(2)
+            eval(archive_modifier.archive_list[archive_choice - 1])(2)
+            archive()
     else:
         archive()
 
 
+# Modify the archive based on the saved data from the database
 def archive_list_update(archive_update):
-    global archive_list
-    archive_list = []
+    archive_modifier("reset")
     with open("archive_list_completed.txt", "r") as file:
         line = file.readline().split(', ')
         for i in range(int(archive_update)):
-            archive_list.append(line[i])
+            archive_modifier(line[i])
+
+
+# Prints out the narration from narration.txt
+def narrate(start, end):
+    with open("narration.txt", "r") as file:
+        t = file.readlines()
+        lines = int(start) - 1
+        while lines < int(end):
+            for letters in t[lines]:
+                print(letters, end='')
+                time.sleep(0.04)
+            time.sleep(1)
+            lines += 1
+
+
+# Use from chapter 2 onwards, executes player's input
+def input_recognize(chapter_num):
+    print("\nNote: Type 'help' into the console to see command list.")
+    choice = input("\n>")
+    if choice == "menu":
+        menu(f"Chapter {chapter_num}")
+        input_recognize(chapter_num)
+    elif choice == "help":
+        with open("command_list.txt", "r") as file:
+            print(file.read())
+        input_recognize(chapter_num)
+    elif choice == "clear console":
+        os.system('clear')
+        input_recognize(chapter_num)
+    else:
+        try:
+            eval(choice)(int(chapter_num))
+        except NameError:
+            print(f"'{choice}' not recognized.")
+        except SyntaxError:
+            print(f"'{choice}' not recognized.")
+        input_recognize(chapter_num)
 
 
 # Function for the transition between chapters
@@ -209,7 +295,7 @@ def chapter_transition(chap_name1, chap_name2, chap_name3):
     os.system('clear')
 
 
-# Function for countdown clock
+# Function for time recording
 def time_record():
     t = 1
     while t:
@@ -220,52 +306,16 @@ def time_record():
         t += 1
 
 
-def clock(clock_version):
-    if clock_version == 1:
-        print('\033[3m' + "\n23:59" + '\033[0m')
-        time.sleep(1)
-        input("\n\t\t\t\tPress Enter to leave. ")
-        pass
-
-
 # Function 'memo1'
 def memo1(access_point):
     os.system('clear')
     with open("memo1.txt", "r") as memo1_reader:
         print(memo1_reader.read())
-    global archive_list
     if access_point == 1:
-        archive_list.append(memo1)
-        time.sleep(10)
-        memo1_choice1()
-        pass
-    elif access_point == 2:
-        time.sleep(5)
-        memo1_choice2()
-
-
-def memo1_choice1():
-    memo1_choice = input("\n\t\t\t\tPress Enter to leave.")
-    if memo1_choice == "":
-        pass
-    elif memo1_choice == "menu":
-        menu(memo1_choice1)
-    else:
-        os.system('clear')
-        print(f"'{memo1_choice}' not recognized.")
-        memo1_choice1()
-
-
-def memo1_choice2():
-    memo1_choice = input("\n\t\t\t\tPress Enter to leave.")
-    if memo1_choice == "":
-        archive()
-    elif memo1_choice == "menu":
-        menu(memo1_choice2)
-    else:
-        os.system('clear')
-        print(f"'{memo1_choice}' not recognized.")
-        memo1_choice2()
+        archive_modifier(memo1)
+    time.sleep(5)
+    input("\n\t\t\t\tPress Enter to leave.")
+    pass
 
 
 # Function 'newspaper1'
@@ -274,65 +324,73 @@ def newspaper1(access_point):
     print("\t\t\t" + '\033[1m' + "Family brutally murdered by the father" + '\033[0m', end='\n')
     with open("newspaper1.txt", "r") as file:
         print(file.read())
-    global archive_list
     if access_point == 1:
-        archive_list.append(newspaper1)
-        time.sleep(10)
-        newspaper1_choice1()
+        archive_modifier(newspaper1)
+    time.sleep(5)
+    input("\n\t\t\t\tPress Enter to leave.")
+    pass
+
+
+# Function 'clock'
+def clock(clock_version):
+    if clock_version == 1 or clock_version == 3:
+        print('\033[3m' + "\n23:59" + '\033[0m')
+        time.sleep(1)
+        input("\n\t\t\t\tPress Enter to leave. ")
         pass
-    elif access_point == 2:
-        time.sleep(5)
-        newspaper1_choice2()
+    elif clock_version == 2:
+        print('\033[3m' + "\n23:58" + '\033[0m')
+        time.sleep(1)
 
+        def wait():
+            os.system('clear')
+            print('\033[3m' + "\n23:59" + '\033[0m')
+            basement_unlock(True)
+            input("\n\t\t\t\tPress Enter to leave. ")
+            sound_door_creak.play()
+            time.sleep(5)
+            pass
 
-def newspaper1_choice1():
-    newspaper1_choice = input("\n\t\t\t\tPress Enter to leave.")
-    if newspaper1_choice == "":
-        pass
-    elif newspaper1_choice == "menu":
-        menu(newspaper1_choice1)
-    else:
-        os.system('clear')
-        print(f"'{newspaper1_choice}' not recognized.")
-        newspaper1_choice1()
-
-
-def newspaper1_choice2():
-    newspaper1_choice = input("\n\t\t\t\tPress Enter to leave.")
-    if newspaper1_choice == "":
-        archive()
-    elif newspaper1_choice == "menu":
-        menu(newspaper1_choice2)
-    else:
-        os.system('clear')
-        print(f"'{newspaper1_choice}' not recognized.")
-        newspaper1_choice2()
+        t = Timer(9, wait)
+        t.start()
+        choice = input("\n\t\t\t\tPress Enter to leave. ")
+        if choice is not None:
+            t.cancel()
+            pass
 
 
 def door_entrance(access_point):
-    if access_point == 1:
+    if access_point:
+        sound_door_locked.play()
+        time.sleep(2.5)
         print('\033[3m' + "\nlocked." + '\033[0m')
         time.sleep(1)
         input("\n\t\t\t\tPress Enter to go back. ")
         pass
 
 
-def phone():
-    number = input("\n\t\tDial number or press Enter to go back. ")
-    if number == "":
-        pass
-    else:
-        os.system('clear')
-        print("...")
-        time.sleep(1.5)
-        print("Doesn't seem like it's working")
-        time.sleep(1)
-        phone()
+def phone(access_point):
+    if access_point:
+        number = input("\n\t\tDial number or press Enter to go back. ")
+        if number.isnumeric():
+            if number == "":
+                pass
+            else:
+                os.system('clear')
+                time.sleep(1.5)
+                narrate(77, 78)
+                time.sleep(1)
+                phone(access_point)
+        else:
+            os.system('clear')
+            print(f"'{number}' has to be integers.")
+            phone(access_point)
 
 
 def radio(access_point):
-    if access_point == 1:
-        print("\n...")
+    if access_point == 1 or access_point == 2 or access_point == 3:
+        time.sleep(1.5)
+        narrate(82, 82)
         time.sleep(1)
         input("\n\t\t\t\tPress Enter to go back. ")
         pass
@@ -340,36 +398,94 @@ def radio(access_point):
 
 def bathroom(access_point):
     if access_point == 1:
+        sound_door_locked.play()
+        time.sleep(2.5)
         print('\033[3m' + "\nlocked." + '\033[0m')
         time.sleep(1)
         input("\n\t\t\t\tPress Enter to go back. ")
         pass
+    if access_point == 2:
+        sound_door_locked.play()
+        time.sleep(2.5)
+        print('\033[3m' + "\nlocked." + '\033[0m')
+        time.sleep(2)
+        input("\n\t\t\t\tPress Enter to go back. ")
+        time.sleep(0.5)
+        print("\n>", end='')
+        time.sleep(3)
+        sound_door_knock.play()
+        time.sleep(2)
+        pass
+    if access_point == 3:
+        if bathroom_unlock.is_unlock:
+            time.sleep(1.5)
+            narrate(95, 96)
+            sound_baby_cry.play()
+            narrate(97, 98)
+            time.sleep(1.5)
+            sound_baby_cry.stop()
+            sound_door_slam.play()
+            time.sleep(0.5)
+            narrate(99, 102)
+            time.sleep(2)
+            input("\n\t\t\t\tPress Enter to go back. ")
+            pass
+        else:
+            sound_door_locked.play()
+            time.sleep(2.5)
+            print('\033[3m' + "\nlocked." + '\033[0m')
+            time.sleep(2)
+            input("\n\t\t\t\tPress Enter to go back. ")
+            pass
 
 
-# Function to calculate score
-def score_add(score):
-    global score_final
-    score_final += score
-    return score_final
+def basement(access_point):
+    if access_point == 2:
+        if basement_unlock.is_unlock:
+            time.sleep(1.5)
+            narrate(86, 86)
+            time.sleep(1)
+            input("\n\t\t\t\tPress Enter to countinue. ")
+            basement_unlock(False)
+            chapter_transition("Chapter 2", "\tChapter 3", "DUSK")
+            chap3()
+        else:
+            sound_door_locked.play()
+            time.sleep(2.5)
+            print('\033[3m' + "\nlocked." + '\033[0m')
+            time.sleep(1.5)
+            narrate(88, 89)
+            time.sleep(1)
+            input("\n\t\t\t\tPress Enter to go back. ")
+            pass
+    if access_point == 3:
+        if basement_unlock.is_unlock:
+            time.sleep(1.5)
+            narrate(106, 106)
+            time.sleep(1)
+            input("\n\t\t\t\tPress Enter to countinue. ")
+            basement_unlock(False)
+            chapter_transition("Chapter 3", "\tChapter 4", "THE CRY")
+            chap3()
+        else:
+            sound_door_locked.play()
+            time.sleep(2.5)
+            print('\033[3m' + "\nlocked." + '\033[0m')
+            time.sleep(2)
+            input("\n\t\t\t\tPress Enter to go back. ")
+            print("\n>", end='')
+            time.sleep(3)
+            sound_door_creak_open.play()
+            time.sleep(5)
+            bathroom_unlock(True)
+            pass
 
 
 # Function 'prologue_1'
 def prologue_1():
     os.system('clear')
-    print("Where am I?")
-    time.sleep(3)
-    print("This is not my bed...", end=' ')
-    time.sleep(2)
-    print("nor it is my room?")
-    time.sleep(3)
-    print("Ugh!", end='')
-    for i in range(3):
-        time.sleep(0.5)
-        print(".", end='')
-    time.sleep(2)
-    print(" My head hurts.")
-    time.sleep(4)
-    print("There's a memo over here.")
+    time.sleep(1.5)
+    narrate(2, 5)
     time.sleep(2)
     prologue1_memo()
 
@@ -378,14 +494,8 @@ def prologue_1():
     os.system('clear')
     sound_door_creak.play()
     time.sleep(5)
-    print("WHO'S THERE!?")
-    time.sleep(1)
-    for i in range(3):
-        time.sleep(1.2)
-        print(".", end='')
+    narrate(7, 8)
     time.sleep(2)
-    print("\nThe door is unlocked?")
-    time.sleep(1)
     prologue2_exit()
 
     # prologue2_exit
@@ -420,9 +530,9 @@ def chap1_0():
     chapter_transition("Prologue", "Chapter 1", "THE BEGINNING")
     time.sleep(3)
     print("Note: You can access the menu at any point by typing 'menu' into the console.")
-    time.sleep(3)
+    time.sleep(2)
     print("\nNote: Readings such as memos can be accessed via 'archive' in the menu.")
-    time.sleep(3)
+    time.sleep(2)
     chap1_note()
 
     # chap1_note
@@ -431,24 +541,12 @@ def chap1_0():
 def chap1_1():
     os.system('clear')
     time.sleep(1.5)
-    print("It looked like a normal hallway.")
+    narrate(12, 14)
     time.sleep(2)
-    print("Wooden floor, ", end='')
-    time.sleep(1.2)
-    print("white walls, ", end='')
-    time.sleep(1.5)
-    print("and ", end='')
-    time.sleep(2)
-    print("normal...")
-    time.sleep(4)
-    os.system('clear')
-    time.sleep(2)
-    print('\033[3m' + "clack." + '\033[0m')
+    sound_door_slam.play()
     time.sleep(0.8)
-    print("...")
-    time.sleep(1.5)
-    print("The door behind me closed...")
-    time.sleep(2.5)
+    narrate(16, 17)
+    time.sleep(2)
     chap1_hallway_door()
 
     # chap1_hallway_door
@@ -458,15 +556,7 @@ def chap1_2():
     os.system('clear')
     sound_door_locked.play()
     time.sleep(2.5)
-    print("It's locked")
-    time.sleep(2)
-    print("Looks like there's no turning back.")
-    time.sleep(2)
-    os.system('clear')
-    time.sleep(1)
-    print("Hmm... ", end='')
-    time.sleep(1.5)
-    print("This clock seems out of place?")
+    narrate(19, 23)
     time.sleep(2)
     chap1_clock()
 
@@ -475,14 +565,8 @@ def chap1_2():
 
 def chap1_3():
     os.system('clear')
-    time.sleep(2)
-    print("There are beer bottles all over the floor.")
-    time.sleep(2)
-    print("Someone must have been drinking.")
-    time.sleep(3)
-    print("\nIt's quite dirty but,", end=' ')
     time.sleep(1.5)
-    print("this newspaper might give me some hint.")
+    narrate(25, 28)
     time.sleep(2)
     chap1_newspaper()
 
@@ -491,22 +575,8 @@ def chap1_3():
 
 def chap1_4():
     os.system('clear')
-    time.sleep(2)
-    print("...")
-    time.sleep(2)
-    print("This is kinda scary.")
-    time.sleep(2)
-    print("I need to find a way out of here.")
-    time.sleep(2)
-    print("I have a very bad feeling about this place")
-    time.sleep(3)
-    print("\nThis door,", end=' ')
     time.sleep(1.5)
-    print("there's a coat rack beside it.")
-    time.sleep(2)
-    print("That must mean", end=' ')
-    time.sleep(1)
-    print("it leads to the outside?")
+    narrate(30, 36)
     time.sleep(2)
     chap1_entrance_door()
 
@@ -515,34 +585,18 @@ def chap1_4():
 
 def chap1_5():
     os.system('clear')
+    time.sleep(1.5)
+    narrate(38, 41)
     time.sleep(2)
-    print("Hmm,", end=' ')
-    time.sleep(1.5)
-    print("doesn't seem like I'll make it out anytime soon.", end=' ')
-    time.sleep(1.5)
-    print("Wonderful.")
-    time.sleep(1.5)
-    print("I mean,", end=' ')
-    time.sleep(1.5)
-    print("all the windows burglar-proofed, caged.")
-    time.sleep(3)
-    print("\nLet me guess,", end=' ')
-    time.sleep(1.5)
-    print("this landline doesn't work too.")
-    time.sleep(2)
-    phone()
+    chap1_phone()
 
-    # phone
+    # chap1_phone
 
 
 def chap1_6():
     os.system('clear')
-    time.sleep(2)
-    print("Right,", end=' ')
     time.sleep(1.5)
-    print("not much to see here.")
-    time.sleep(3)
-    print("This must be the bathroom.")
+    narrate(43, 45)
     time.sleep(2)
     chap1_bathroom()
 
@@ -551,32 +605,8 @@ def chap1_6():
 
 def chap1_7():
     os.system('clear')
-    time.sleep(2)
-    print("I can't go in there.")
-    time.sleep(3)
-    print("\nUgh,")
-    time.sleep(2)
-    print("Why is it cold all of a sudden?")
-    time.sleep(2.5)
-    print("All the windows are closed,", end=' ')
-    time.sleep(2)
-    print("how?")
-    time.sleep(3)
-    print("\nNo matter how long I think about it,", end=' ')
-    time.sleep(2)
-    print("something about this place is")
     time.sleep(1.5)
-    print('\033[1m' + "unsettling" + '\033[0m')
-    time.sleep(3)
-    print("\nThis is,", end=' ')
-    time.sleep(1.5)
-    print("a wedding photo.")
-    time.sleep(2)
-    print("Joey x Nora")
-    time.sleep(2)
-    print("It looked like it was taken in the 70s.")
-    time.sleep(3)
-    print("\nThere's a radio, but it doesn't seem to be working.")
+    narrate(47, 49)
     time.sleep(2)
     chap1_radio()
 
@@ -585,16 +615,10 @@ def chap1_7():
 
 def chap1_8():
     os.system('clear')
-    time.sleep(2)
-    print("Looks like I went through everything already.")
-    time.sleep(2)
-    print("There's just one last thing,", end=' ')
     time.sleep(1.5)
-    print("the basement.")
-    time.sleep(2)
-    print("I noticed the door was open since earlier, but it was pitch black beyond that.")
-    time.sleep(3)
-    print("I have to go down there, don't I?")
+    narrate(51, 52)
+    time.sleep(1)
+    narrate(53, 56)
     time.sleep(2)
     chap1_end()
 
@@ -662,6 +686,11 @@ def chap1_entrance_door():
         chap1_entrance_door()
 
 
+def chap1_phone():
+    phone(1)
+    chap1_6()
+
+
 def chap1_bathroom():
     choice = input("\n\t\t\t\tPress E to open. ")
     if choice == "e":
@@ -689,10 +718,10 @@ def chap1_radio():
 
 
 def chap1_end():
-    choice = input("\n\t\t\t\tPress Enter. ")
+    choice = input("\n\t\t\t\tPress Enter to continue. ")
     if choice == "":
         chapter_transition("Chapter 1", "\tChapter 2", "LOOP")
-        chap2_1()
+        chap2()
     elif choice == "menu":
         menu(chap1_8)
     else:
@@ -701,37 +730,34 @@ def chap1_end():
         chap1_radio()
 
 
-def chap2_1():
+def chap2():
     os.system('clear')
     time.sleep(1.5)
-    print("Huh?")
+    narrate(60, 71)
+    time.sleep(2)
+    input("\n\t\t\t\tPress Enter. ")
+    os.system('clear')
+    input_recognize(2)
+
+
+def chap3():
+    os.system('clear')
     time.sleep(1.5)
-    print("Wait,", end=' ')
-    time.sleep(1.5)
-    print("oh no...")
+    narrate(91, 91)
     time.sleep(2)
-    print("Didn't I just go through here?")
-    time.sleep(2)
-    print("...")
-    time.sleep(2)
-    print("\nThis couldn't be real right?")
-    time.sleep(2)
-    print("But it's definitely the same hallway.")
-    time.sleep(2.5)
-    print("I don't know what's going on but, ")
+    input("\n\t\t\t\tPress Enter. ")
+    input_recognize(3)
 
 
 # Function 'game over'
 def game_over():
-    print(score_add(0))
+    pass
 
-
-# if __name__ == '__main__':
+    # if __name__ == '__main__':
     a = Thread(target=time_record)
     b = Thread(target=setup)
     a.start()
     b.start()
 
 
-# setup()
-chap2_1()
+setup()
