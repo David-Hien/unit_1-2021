@@ -34,12 +34,18 @@ Apart for this requirements, the owner is open to any type of game, topic or gen
 ## Record of Tasks
 | Task No |  Planned Action | Planned Outcome | Time estimate | Target completion date | Criterion |
 |---------|-----------------|-----------------|---------------|------------------------|-----------|
-|    1    |create start menu|finish start menu|      1h30     |       Sept. 20th       |           |
-|    2    |                 |                 |               |                        |           |
-|    3    |                 |                 |               |                        |           |
-|    4    |                 |                 |               |                        |           |
-|    5    |                 |                 |               |                        |           |
-|    6    |                 |                 |               |                        |           |
-|    7    |                 |                 |               |                        |           |
-|    8    |                 |                 |               |                        |           |
-|    9    |                 |                 |               |                        |           |
+|    1    |create start menu|finish start menu|       1h      |       Sept. 20th       |           |
+|    2    |   create menu   |   finish menu   |      1h30     |       Sept. 22th       |           |
+|    3    |create save_game |finish save_game |       1h      |       Sept. 27th       |           |
+|    4    |create load_game |finish load_game |      1h30     |       Sept. 28th       |           |
+|    5    | write prologue  | finish prologue |       30      |       Sept. 30th       |           |
+|    6    | write chapter 1 |finish chapter 1 |      1h30     |       Sept. 30th       |           |
+|    7    | create archive  | finish archive  |      1h30     |        Oct. 1st        |           |
+|    8    | write chapter 2 |finish chapter 2 |       1h      |        Oct. 3rd        |           |
+|    9    | player testing  | aware of errors |       30      |        Oct. 7th        |           |
+|   10    | bugs/errors fix |fixed bugs/errors|      1h30     |        Oct. 7th        |           |
+|   11    | write chapter 3 |finish chapter 3 |       1h      |        Oct. 9th        |           |
+|   12    |add sound effects|added sfx library|       2h      |        Oct. 12th       |           |
+|   13    |  implement sfx  | implemented sfx |      1h30     |        Oct. 12th       |           |
+|   14    |                 |                 |               |                        |           |
+
