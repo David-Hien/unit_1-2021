@@ -47,5 +47,9 @@ Apart for this requirements, the owner is open to any type of game, topic or gen
 |   11    | write chapter 3 |finish chapter 3 |       1h      |        Oct. 9th        |           |
 |   12    |add sound effects|added sfx library|       2h      |        Oct. 12th       |           |
 |   13    |  implement sfx  | implemented sfx |      1h30     |        Oct. 12th       |           |
+|   14    | write chapter 4 |finish chapter 4 |      1h30     |        Oct. 15th       |           |
+|   15    | write ch4 quest |finish ch4 quest |      4h30     |        Oct. 16th       |           |
+|   16    |create game over |finish game over |       1h      |        Oct. 18th       |           |
 |   14    |                 |                 |               |                        |           |
-
+|   14    |                 |                 |               |                        |           |
+|   14    |                 |                 |               |                        |           |
