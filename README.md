@@ -50,6 +50,6 @@ Apart for this requirements, the owner is open to any type of game, topic or gen
 |   14    | write chapter 4 |finish chapter 4 |      1h30     |        Oct. 15th       |           |
 |   15    | write ch4 quest |finish ch4 quest |      4h30     |        Oct. 16th       |           |
 |   16    |create game over |finish game over |       1h      |        Oct. 18th       |           |
-|   14    |                 |                 |               |                        |           |
+|   14    |  create credit  |  finish credit  |       30      |        Oct. 18th       |           |
 |   14    |                 |                 |               |                        |           |
 |   14    |                 |                 |               |                        |           |
