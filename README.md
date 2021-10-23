@@ -17,6 +17,8 @@ Apart for this requirements, the owner is open to any type of game, topic or gen
 
 I plan to design and mask a text-based game for a client who is an enthusiast of classic computer games. The game will belong to the horror genre that focuses on storytelling and puzzle solving, and will be constructed using PyCharm with the language Python. It will take 1 month to develop and will be evaluated according to the criteria.
 
+The reason why I will be using Python is because it is the most common programming language and can run on almost any platform. Also, the program I’m developing on is PyCharm, an excellent IDE (integrated development environment) for Python. I believe that my solution will be effective as it is widely accessible as well as simple to navigate and understand.
+
 ## Success Criteria
 
 1. The game has to be entirely text-based.
@@ -34,24 +36,24 @@ I plan to design and mask a text-based game for a client who is an enthusiast of
 ## Flow Diagrams
 
 ## Record of Tasks
-| Task No |  Planned Action | Planned Outcome | Time estimate | Target completion date | Criterion |
-|---------|-----------------|-----------------|---------------|------------------------|-----------|
-|    1    |create start menu|finish start menu|       1h      |       Sept. 20th       |           |
-|    2    |   create menu   |   finish menu   |      1h30     |       Sept. 22th       |           |
-|    3    |create save_game |finish save_game |       1h      |       Sept. 27th       |           |
-|    4    |create load_game |finish load_game |      1h30     |       Sept. 28th       |           |
-|    5    | write prologue  | finish prologue |       30      |       Sept. 30th       |           |
-|    6    | write chapter 1 |finish chapter 1 |      1h30     |       Sept. 30th       |           |
-|    7    | create archive  | finish archive  |      1h30     |        Oct. 1st        |           |
-|    8    | write chapter 2 |finish chapter 2 |       1h      |        Oct. 3rd        |           |
-|    9    | player testing  | aware of errors |       30      |        Oct. 7th        |           |
-|   10    | bugs/errors fix |fixed bugs/errors|      1h30     |        Oct. 7th        |           |
-|   11    | write chapter 3 |finish chapter 3 |       1h      |        Oct. 9th        |           |
-|   12    |add sound effects|added sfx library|       2h      |        Oct. 12th       |           |
-|   13    |  implement sfx  | implemented sfx |      1h30     |        Oct. 12th       |           |
-|   14    | write chapter 4 |finish chapter 4 |      1h30     |        Oct. 15th       |           |
-|   15    | write ch4 quest |finish ch4 quest |      4h30     |        Oct. 16th       |           |
-|   16    |create game over |finish game over |       1h      |        Oct. 18th       |           |
-|   14    |  create credit  |  finish credit  |       30      |        Oct. 18th       |           |
-|   14    |                 |                 |               |                        |           |
-|   14    |                 |                 |               |                        |           |
+| Task No | Planned Action          | Planned Outcome          | Time estimate | Target completion date | Criterion |
+|---------|-------------------------|--------------------------|---------------|------------------------|-----------|
+| 1       | write proposed solution | finish proposed solution | 20min         | Sept. 19th             | A         |
+| 2       | create start menu       | finish start menu        | 1h            | Sept. 20th             | C         |
+| 3       | create menu             | finish menu              | 1h30          | Sept. 22th             | C         |
+| 4       | create system diagram   | finish system diagram    | 30min         | Sept. 24th             | B         |
+| 5       | create save_game        | finish save_game         | 1h            | Sept. 27th             | C         |
+| 6       | create load_game        | finish load_game         | 1h30          | Sept. 28th             | C         |
+| 7       | write prologue          | finish prologue          | 30min         | Sept. 30th             | C         |
+| 8       | write chapter 1         | finish chapter 1         | 1h30          | Sept. 30th             | C         |
+| 9       | create archive          | finish archive           | 1h30          | Oct. 1st               | C         |
+| 10      | write chapter 2         | finish chapter 2         | 1h            | Oct. 3rd               | C         |
+| 11      | player testing          | aware of errors          | 30min         | Oct. 6th               | C         |
+| 12      | bugs/errors fix         | fixed bugs/errors        | 1h30          | Oct. 6th               | C         |
+| 13      | write chapter 3         | finish chapter 3         | 1h            | Oct. 9th               | C         |
+| 14      | add sound effects       | added sfx library        | 2h            | Oct. 12th              | C         |
+| 15      | implement sfx           | implemented sfx          | 1h30          | Oct. 12th              | C         |
+| 16      | write chapter 4         | finish chapter 4         | 1h30          | Oct. 15th              | C         |
+| 17      | write ch4 quest         | finish ch4 quest         | 4h30          | Oct. 16th              | C         |
+| 18      | create game over        | finish game over         | 1h            | Oct. 18th              | C         |
+| 19      | create credit           | finish credit            | 30min         | Oct. 18th              | C         |
