@@ -48,12 +48,15 @@ The reason why I will be using Python is because it is the most common programmi
 | 8       | write chapter 1         | finish chapter 1         | 1h30          | Sept. 30th             | C         |
 | 9       | create archive          | finish archive           | 1h30          | Oct. 1st               | C         |
 | 10      | write chapter 2         | finish chapter 2         | 1h            | Oct. 3rd               | C         |
-| 11      | player testing          | aware of errors          | 30min         | Oct. 6th               | C         |
-| 12      | bugs/errors fix         | fixed bugs/errors        | 1h30          | Oct. 6th               | C         |
-| 13      | write chapter 3         | finish chapter 3         | 1h            | Oct. 9th               | C         |
-| 14      | add sound effects       | added sfx library        | 2h            | Oct. 12th              | C         |
-| 15      | implement sfx           | implemented sfx          | 1h30          | Oct. 12th              | C         |
-| 16      | write chapter 4         | finish chapter 4         | 1h30          | Oct. 15th              | C         |
-| 17      | write ch4 quest         | finish ch4 quest         | 4h30          | Oct. 16th              | C         |
-| 18      | create game over        | finish game over         | 1h            | Oct. 18th              | C         |
-| 19      | create credit           | finish credit            | 30min         | Oct. 18th              | C         |
+| 11      | update system diagram   | finish system diagram    | 15min         | Oct. 6th               | B         |
+| 12      | player testing          | aware of errors          | 30min         | Oct. 6th               | E         |
+| 13      | bugs/errors fix         | fixed bugs/errors        | 1h30          | Oct. 6th               | C         |
+| 14      | write chapter 3         | finish chapter 3         | 1h            | Oct. 9th               | C         |
+| 15      | add sound effects       | added sfx library        | 2h            | Oct. 12th              | C         |
+| 16      | implement sfx           | implemented sfx          | 1h30          | Oct. 12th              | C         |
+| 17      | create name encoder     | implemented encoder      | 20min         | Oct. 13th              | C         |
+| 18      | write chapter 4         | finish chapter 4         | 1h30          | Oct. 15th              | C         |
+| 19      | write ch4 quest         | finish ch4 quest         | 4h30          | Oct. 16th              | C         |
+| 20      | create game over        | finish game over         | 1h            | Oct. 18th              | C         |
+| 21      | create credit           | finish credit            | 30min         | Oct. 18th              | C         |
+| 22      | create flow diagrams    | finish flow diagrams     | 1h            | Oct. 21st              | B         |
