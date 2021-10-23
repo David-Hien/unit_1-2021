@@ -32,8 +32,7 @@ The reason why I will be using Python is because it is the most common programmi
 # Criteria B: Design
 
 ## System Diagram
-
-![](IMG_0870.jpg)
+![](IMG_0870.JPG)
 
 ## Flow Diagrams
 
