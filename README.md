@@ -33,6 +33,8 @@ The reason why I will be using Python is because it is the most common programmi
 
 ## System Diagram
 
+![](IMG_0870.jpg)
+
 ## Flow Diagrams
 
 ## Record of Tasks
