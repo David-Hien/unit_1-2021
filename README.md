@@ -15,6 +15,8 @@ Apart for this requirements, the owner is open to any type of game, topic or gen
 
 ## Proposed Solution
 
+I plan to design and mask a text-based game for a client who is an enthusiast of classic computer games. The game will belong to the horror genre that focuses on storytelling and puzzle solving, and will be constructed using PyCharm with the language Python. It will take 1 month to develop and will be evaluated according to the criteria.
+
 ## Success Criteria
 
 1. The game has to be entirely text-based.
