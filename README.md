@@ -34,6 +34,10 @@ The reason why I will be using Python is because it is the most common programmi
 ## System Diagram
 ![](IMG_0870.JPG)
 
+**Figure 1.** System diagram for the proposed solution
+
+As shown in Fig. 1, the proposed solution will run on Python and it is 
+
 ## Flow Diagrams
 
 ## Record of Tasks
