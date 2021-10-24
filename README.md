@@ -65,3 +65,4 @@ As shown in Fig. 1, the proposed solution will run on Python 3.9 and it is devel
 | 20      | create game over        | finish game over         | 1h            | Oct. 18th              | C         |
 | 21      | create credit           | finish credit            | 30min         | Oct. 18th              | C         |
 | 22      | create flow diagrams    | finish flow diagrams     | 1h            | Oct. 21st              | B         |
+| 23      | create leaderboard      | finish leaderboard       | 1h            | Oct. 23rd              | C         |
