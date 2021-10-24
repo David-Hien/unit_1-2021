@@ -39,6 +39,9 @@ The reason why I will be using Python is because it is the most common programmi
 As shown in Fig. 1, the proposed solution will run on Python 3.9 and it is developed with PyCharm (v. 2021). The game is run on Macbook with a quad-care i5 1.4Ghz processor and 8GB of RAM, no GPU needed. The operating system is macOS BigSur 11.4. Input is through the keyboard and output is through the terminal console of PyCharm which is shown on the screen. The game, run by main.py will use some data such as name, event, archive, and time/score from the database, which is written in a ".txt" file.
 
 ## Flow Diagrams
+![](set_up_flow.png)
+
+**Figure 2.** Flow diagram of the set_up function
 
 ## Record of Tasks
 | Task No | Planned Action          | Planned Outcome          | Time estimate | Target completion date | Criterion |
