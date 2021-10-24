@@ -48,6 +48,11 @@ As shown in Fig. 1, the proposed solution will run on Python 3.9 and it is devel
 ![](input_recognize_flow.png)
 **Figure 3.** Flow diagram of the input_recognize function
 
+### menu function
+![](menu_flow.png)
+**Figure 4.** Flow diagram of the menu function
+
+
 
 ## Record of Tasks
 | Task No | Planned Action          | Planned Outcome          | Time estimate | Target completion date | Criterion |
