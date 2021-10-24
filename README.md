@@ -42,11 +42,12 @@ As shown in Fig. 1, the proposed solution will run on Python 3.9 and it is devel
 
 ### set_up function
 ![](set_up_flow.png)
+**Figure 2.** Flow diagram of the set_up function
 
 ### input_recognize function
 ![](input_recognize_flow.png)
+**Figure 3.** Flow diagram of the input_recognize function
 
-**Figure 2.** Flow diagram of the set_up function
 
 ## Record of Tasks
 | Task No | Planned Action          | Planned Outcome          | Time estimate | Target completion date | Criterion |
