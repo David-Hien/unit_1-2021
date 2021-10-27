@@ -1,0 +1,13 @@
+The game has encountered an unrecoverable error and will shut down.
+This error may be triggered by reasons that are not related to the game.
+
+Please try the following before restarting:
+ - Disable any screen recording software you may be running
+ - Make sure you have the latest graphics drivers installed
+ - Disable SLI/CrossFireX
+
+We are sorry for the inconvenience.
+
+Error: PLAYER_DEAD
+Description: Point-blank headshot by a 1911.
+Reason: You had to ask?

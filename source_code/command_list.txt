@@ -1,0 +1,11 @@
+
+                Command list:
+
+    clock
+    door_entrance
+    bathroom
+    radio
+    basement
+    phone
+    menu
+    clear console
