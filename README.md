@@ -80,3 +80,15 @@ As shown in Fig. 1, the proposed solution will run on Python 3.9 and it is devel
 | 21      | create credit           | finish credit            | 30min         | Oct. 18th              | C         |
 | 22      | create flow diagrams    | finish flow diagrams     | 1h            | Oct. 21st              | B         |
 | 23      | create leaderboard      | finish leaderboard       | 1h            | Oct. 23rd              | C         |
+
+
+
+## Test Plan
+| Instruction                   | Category     | Input                 | Description                                                                                     | Expected output                                                    | Success criteria |
+|-------------------------------|--------------|-----------------------|-------------------------------------------------------------------------------------------------|--------------------------------------------------------------------|------------------|
+| Test menu function            | Unit testing | “1”, “2”, “3”, “4”    | Pause the game temporarily and allow the user to resume, save game, access archive, or quit     | resume() save_game() archive() setup()                             | 1, 2, 4          |
+| Test narrate function         | Unit testing | “43”, “45”            | Write the lines indicated by the input that are in the narrate.txt file                         | Right, not much to see here. So this is the bathroom.              | 1, 2, 3          |
+| Test save game function       | Integration  | From menu() enter “2” | Save the user name, checkpoint, archive list, and time into the database                        | In database.txt, f”{encoded name}, {event}, {archive_len}, {time}” | 1, 2, 3          |
+| Test input recognize function | Integration  | “clock”               | Checks and runs eligible commands. If unable to run, return “{command} not recognized”          | clock(chap_num)                                                    | 1                |
+| Test for bugs                 | Code review  | -                     | Play through the game to check for inconsistencies, error messages, program stops working, etc. | -                                                                  | -                |
+| Test for variable naming      | Code review  | -                     | Variables are clear and their names are meaningful                                              | -                                                                  | -                |
